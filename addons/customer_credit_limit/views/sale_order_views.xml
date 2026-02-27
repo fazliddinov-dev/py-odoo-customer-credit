@@ -5,10 +5,9 @@
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
-
             <xpath expr="//field[@name='payment_term_id']" position="after">
                 
-                <group string="Credit Control" invisible="credit_limit == 0">
+                <group string="Credit Control" name="credit_control_group" invisible="credit_limit == 0">
                     <field name="credit_limit" readonly="1"/>
                     <field name="total_due" readonly="1"/>
                     
@@ -17,9 +16,10 @@
                            invisible="credit_exceeded == True"/>
 
                     <div colspan="2" class="alert alert-danger" role="alert" invisible="credit_exceeded == False">
-                        <i class="fa fa-warning"/> <strong>Credit limit exceeded!</strong>
+                        <i class="fa fa-exclamation-triangle" title="Credit Warning" role="img" aria-label="Warning"/> 
+                        <strong>Credit limit exceeded!</strong>
                         <br/>
-                        Remaining after this order: <field name="remaining_credit" readonly="1" class="fw-bold"/>
+                        Remaining after this order: <field name="remaining_credit" readonly="1" class="fw-bold text-danger"/>
                     </div>
                     
                     <field name="credit_exceeded" invisible="1"/>
