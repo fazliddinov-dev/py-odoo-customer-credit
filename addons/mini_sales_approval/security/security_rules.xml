@@ -1,0 +1,6 @@
+<record id="rule_approval_manager_only" model="ir.rule">
+    <field name="name">Manager can do everything</field>
+    <field name="model_id" ref="model_sale_approval_request"/>
+    <field name="groups" eval="[(4, ref('sales_team.group_sale_manager'))]"/>
+    <field name="domain_force">[(1, '=', 1)]</field>
+</record>

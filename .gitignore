@@ -107,3 +107,4 @@ pip-delete-this-directory.txt
 # Project specific
 /staticfiles/
 /media/
+.antigravity/

@@ -1,0 +1,68 @@
+<odoo>
+    <record id="view_sale_approval_tree" model="ir.view">
+        <field name="name">sale.approval.request.tree</field>
+        <field name="model">sale.approval.request</field>
+        <field name="arch" type="xml">
+            <tree string="Approval Requests" decoration-info="state == 'submitted'" decoration-success="state == 'approved'" decoration-danger="state == 'rejected'">
+                <field name="name"/>
+                <field name="sale_order_id"/>
+                <field name="requested_by"/>
+                <field name="total_amount"/>
+                <field name="state" widget="badge"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_sale_approval_form" model="ir.view">
+        <field name="name">sale.approval.request.form</field>
+        <field name="model">sale.approval.request</field>
+        <field name="arch" type="xml">
+            <form string="Approval Request">
+                <header>
+                    <button name="action_submit" type="object" string="Submit" states="draft" class="btn-primary"/>
+                    
+                    <button name="action_approve" type="object" string="Approve" 
+                            states="submitted" class="btn-success" 
+                            groups="sales_team.group_sale_manager"/>
+                    <button name="action_reject" type="object" string="Reject" 
+                            states="submitted" class="btn-danger" 
+                            groups="sales_team.group_sale_manager"/>
+                            
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submitted,approved,rejected"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="sale_order_id"/>
+                            <field name="requested_by"/>
+                            <field name="total_amount"/>
+                        </group>
+                        <group>
+                            <field name="approved_by" attrs="{'invisible': [('state', '!=', 'approved')]}"/>
+                            <field name="reject_reason" attrs="{'invisible': [('state', '!=', 'rejected')], 'required': [('state', '==', 'rejected')]}"/>
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_sale_approval" model="ir.actions.act_window">
+        <field name="name">Approval Requests</field>
+        <field name="res_model">sale.approval.request</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_sale_approval_root" 
+              name="Approvals" 
+              parent="sale.menu_sale_report" 
+              action="action_sale_approval" 
+              sequence="20"/>
+</odoo>

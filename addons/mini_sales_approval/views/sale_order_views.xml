@@ -1,0 +1,12 @@
+<record id="view_order_form_inherit_approval" model="ir.view">
+    <field name="name">sale.order.form.inherit.approval</field>
+    <field name="model">sale.order</field>
+    <field name="inherit_id" ref="sale.view_order_form"/>
+    <field name="arch" type="xml">
+        <div name="button_box" position="inside">
+            <button name="action_view_approvals" type="object" class="oe_stat_button" icon="fa-check-square-o">
+                <field name="approval_count" widget="statinfo" string="Approvals"/>
+            </button>
+        </div>
+    </field>
+</record>
